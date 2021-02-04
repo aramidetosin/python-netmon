@@ -23,7 +23,7 @@ with driver(hostname='192.168.1.231',
     # for line in difflines:
         # print(line)
     #
-    device.load_merge_candidate(filename="cisco.ios.running.CML-iosv-0.config")
+    device.load_merge_candidate(filename="cisco.ios.running.CML-iosv-0.ios")
     diff = device.compare_config()
     print("----- DIFF ------------\n", diff)
 

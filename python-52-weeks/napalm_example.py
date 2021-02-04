@@ -46,18 +46,23 @@ with driver(hostname='192.168.1.221',
     print(json.dumps(device.get_snmp_information(), sort_keys=True, indent=4))
 
 
-print("\n----- connecting to device (vSRX) ----------")
-driver = napalm.get_network_driver('junos')
-with driver(hostname='192.168.1.226',
-            username='admin',
-            password='juniper1',
-            ) as device:
+print("\n----- connecting to device (JUNOS) ----------")
 
-    print("\n----- facts ----------")
-    print(json.dumps(device.get_facts(), sort_keys=True, indent=4))
+junos_devices = ['192.168.1.211','192.168.1.226']
 
-    print("\n----- interfaces ----------")
-    print(json.dumps(device.get_interfaces(), sort_keys=True, indent=4))
+for device in junos_devices:
 
-    print("\n----- interface counters ----------")
-    print(json.dumps(device.get_interfaces_counters(), sort_keys=True, indent=4))
+    driver = napalm.get_network_driver('junos')
+    with driver(hostname=device,
+                username='admin',
+                password='juniper1',
+                ) as device:
+
+        print("\n----- facts ----------")
+        print(json.dumps(device.get_facts(), sort_keys=True, indent=4))
+
+        print("\n----- interfaces ----------")
+        print(json.dumps(device.get_interfaces(), sort_keys=True, indent=4))
+
+        print("\n----- interface counters ----------")
+        print(json.dumps(device.get_interfaces_counters(), sort_keys=True, indent=4))
