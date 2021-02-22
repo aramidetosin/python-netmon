@@ -5,3 +5,4 @@ pyvenv.cfg
 share/
 *.pyc
 .gitignore
+.idea
