@@ -125,6 +125,15 @@ def junos_get_serial_number(show_serial_output):
     if serial_number_match:
         return serial_number_match.group(1)
 
+def junos_get_interfaces(show_interface_output):
+    line_show_interface_output = show_interface_output.splitlines()
+    interfaces = []
+    for line in line_show_interface_output:
+        xx = line.split(" ")[0]
+        if xx != "Interface" and xx != '':
+            if '.' not in xx:
+                interfaces.append(xx)
+    return interfaces
 
 class NetmikoDevice(Device):
 
@@ -151,6 +160,7 @@ class NetmikoDevice(Device):
             show_serial_output = self.connection.send_command("show license host-id")
             show_uptime_output = self.connection.send_command("show system uptime")
 
+
             facts["os_version"] = get_version_from_show(show_version_output)
             facts["hostname"] = show_hostname_output.strip()
             facts["serial_number"] = show_serial_output.strip()[20:]  # Don't do this :-)
@@ -161,6 +171,7 @@ class NetmikoDevice(Device):
             show_hostname_output = self.connection.send_command("show system information")
             show_uptime_output = self.connection.send_command("show system uptime")
             show_serial_output = self.connection.send_command("show chassis hardware")
+            show_interface_output = self.connection.send_command("show interface terse")
 
             information = junos_get_information(show_hostname_output)
             facts["os_version"] = information['Version']
@@ -170,6 +181,7 @@ class NetmikoDevice(Device):
             facts["serial_number"] = junos_get_serial_number(show_serial_output)
             facts["uptime"] = junos_get_uptime_from_show(show_uptime_output)
             facts['vendor'] = 'Juniper'
+            facts['interfaces'] = junos_get_interfaces(show_interface_output)
 
         else:
             return False

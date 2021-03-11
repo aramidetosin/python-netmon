@@ -18,9 +18,11 @@ connection = Netmiko(
 show_hostname_output = connection.send_command("show system information")
 show_uptime_output = connection.send_command("show system uptime")
 show_serial_output = connection.send_command("show chassis hardware")
+show_interface_output = connection.send_command("show interface terse")
 print(show_hostname_output)
 print(show_uptime_output)
 print(show_serial_output)
+print(show_interface_output)
 
 
 def junos_get_information(show_hostname_output):
@@ -73,3 +75,14 @@ print(junos_get_information(show_hostname_output))
 print(junos_get_uptime_from_show(show_uptime_output))
 
 print(junos_get_serial_number(show_serial_output))
+
+
+line_show_interface_output = show_interface_output.splitlines()
+interfaces = []
+for line in line_show_interface_output:
+    xx = line.split(" ")[0]
+    if xx != "Interface" and xx != '':
+        if '.' not in xx:
+            interfaces.append(xx)
+
+print(interfaces)
