@@ -5,6 +5,7 @@ import re
 import xmltodict
 from pprint import pprint
 import urllib3
+from rich import print
 
 
 class TransportType:
@@ -19,6 +20,7 @@ class DeviceType:
     NXOS_SSH = "nxos_ssh"
     NEXUS = "nexus"
     CISCO_NXOS = "cisco_nxos"
+    JUNOS = "junos"
 
 
 # NOTE: this will disable insecure HTTPS request warnings that NAPALM gets
