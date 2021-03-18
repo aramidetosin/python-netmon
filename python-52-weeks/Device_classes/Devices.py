@@ -125,17 +125,22 @@ def junos_get_serial_number(show_serial_output):
     if serial_number_match:
         return serial_number_match.group(1)
 
+
 def junos_get_interfaces(show_interface_output):
     line_show_interface_output = show_interface_output.splitlines()
     interfaces = []
     for line in line_show_interface_output:
-        xx = line.split(" ")[0]
-        if xx != "Interface" and xx != '':
-            if '.' not in xx:
-                interfaces.append(xx)
+        line_split = line.split(" ")[0]
+        if line_split != "Interface" and line_split != '':
+            if '.' not in line_split:
+                interfaces.append(line_split)
     return interfaces
 
+
 class NetmikoDevice(Device):
+
+    # def __init__(self, name, device_type, hostname):
+    #     super().__init__( name, device_type, hostname)
 
     def connect(self):
         print(f"\n\n----- Connecting to {self.hostname}:{self.port}")
@@ -159,7 +164,6 @@ class NetmikoDevice(Device):
             show_version_output = self.connection.send_command("show version")
             show_serial_output = self.connection.send_command("show license host-id")
             show_uptime_output = self.connection.send_command("show system uptime")
-
 
             facts["os_version"] = get_version_from_show(show_version_output)
             facts["hostname"] = show_hostname_output.strip()
@@ -194,6 +198,9 @@ class NetmikoDevice(Device):
 
 
 class NapalmDevice(Device):
+
+    # def __init__(self, name, device_type, hostname):
+    #     super().__init__( name, device_type, hostname)
 
     def connect(self):
         driver = napalm.get_network_driver(self.device_type)
