@@ -2,7 +2,7 @@ from synology_dsm import SynologyDSM
 from pprint import pprint
 
 print("Creating Valid API")
-api = SynologyDSM("192.168.1.12", "5000", "aramide", "olfAS1q8ma8N")
+api = SynologyDSM("nas", "5000", "aramide", "olfAS1q8ma8N")
 
 print("=== Information ===")
 api.information.update()
